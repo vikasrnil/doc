@@ -272,3 +272,115 @@ Flash SD card
 Boot device
 
 
+
+
+⚙️ Core Build Commands
+🔹 Build an Image / Recipe
+bitbake <target>
+
+👉 Builds everything required for the target (image or package)
+
+Example:
+
+bitbake core-image-minimal
+🔹 Continue Build After Error
+bitbake <target> -k
+
+👉 Continues building other tasks even if some fail
+
+🔹 Force Rebuild
+bitbake <target> -f
+
+👉 Forces execution of tasks even if already built
+
+🧹 Cleaning Commands
+🔹 Clean Build Artifacts
+bitbake -c clean <recipe>
+
+👉 Removes:
+
+Work directory output
+Keeps downloaded source
+🔹 Clean + Remove SSTATE
+bitbake -c cleansstate <recipe>
+
+👉 Removes:
+
+Work directory
+Shared state cache
+
+👉 Forces full rebuild next time
+
+🔹 Clean Everything (Including Downloads)
+bitbake -c cleanall <recipe>
+
+👉 Removes:
+
+Work dir
+SSTATE
+Downloaded source
+
+⚠️ Full rebuild required afterward
+
+🔁 Task Execution Commands
+🔹 Run Specific Task
+bitbake -c <task> <recipe>
+
+Examples:
+
+bitbake -c fetch busybox
+bitbake -c compile busybox
+🔹 List All Tasks of a Recipe
+bitbake -c listtasks <recipe>
+🔹 Show Task Execution Order
+bitbake -g <target>
+
+👉 Generates:
+
+task-depends.dot
+pn-depends.dot
+📊 Debugging & Inspection Commands
+🔹 Show Environment Variables
+bitbake -e <recipe>
+
+👉 Displays all variables after parsing
+
+🔹 Show Layers
+bitbake-layers show-layers
+🔹 Show Recipes
+bitbake-layers show-recipes
+🔹 Show Recipe Providers
+bitbake-layers show-recipes <name>
+🔹 Show Appends
+bitbake-layers show-appends
+🧱 Layer Management Commands
+🔹 Create New Layer
+bitbake-layers create-layer meta-my-layer
+
+👉 Creates:
+
+meta-my-layer/
+ ├── conf/
+ │   └── layer.conf
+🔹 Add Layer
+bitbake-layers add-layer ../meta-my-layer
+🔹 Remove Layer
+bitbake-layers remove-layer ../meta-my-layer
+
+
+Build Output & Logs
+🔹 View Logs
+tmp/work/<machine>/<recipe>/<version>/temp/log.do_compile
+🔹 Clean Logs Only
+bitbake -c cleanlogs <recipe>
+🚀 Performance / Parallel Build
+🔹 Set Parallel Jobs (in local.conf)
+BB_NUMBER_THREADS = "8"
+PARALLEL_MAKE = "-j8"
+🧠 Useful Combined Commands
+🔹 Rebuild Specific Recipe Fully
+bitbake -c cleansstate <recipe>
+bitbake <recipe>
+🔹 Rebuild Image Without Re-downloading
+bitbake -c clean core-image-minimal
+bitbake core-image-minimal
