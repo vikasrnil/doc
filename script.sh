@@ -2,10 +2,6 @@
 
 BAUDRATE=921600
 
-echo "=========================================="
-echo "Searching serial ports..."
-echo "=========================================="
-
 PORT=$(ls /dev/ttyUSB* 2>/dev/null | sort -V | tail -n 1)
 
 if [ -z "$PORT" ]
